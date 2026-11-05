@@ -1,0 +1,24 @@
+
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:pinDigests"
+  ],
+  "packageRules": [
+    {
+      "description": "Automatically update Caddy base images",
+      "matchManagers": ["dockerfile"],
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["caddy"],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest",
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ]
+}
