@@ -1,16 +1,11 @@
-# syntax=docker/dockerfile:1
+ARG CADDY_VERSION=2
 
-FROM caddy:2-builder-alpine AS builder
+FROM caddy:${CADDY_VERSION}-builder-alpine AS builder
 
 RUN xcaddy build \
-    --with github.com/caddy-dns/hetzner/v2 \
-    --output /usr/bin/caddy
+    --with github.com/caddy-dns/hetzner/v2
 
-FROM caddy:2-alpine
+FROM caddy:${CADDY_VERSION}-alpine
 
-COPY --from=builder /usr/bin/caddy /usr/bin/caddy
-
-EXPOSE 80 443 443/udp 2019
-
-ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+COPY --from=builder \
+    /usr/bin/caddy /usr/bin/caddy
