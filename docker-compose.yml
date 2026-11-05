@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  caddy:
+    build: .
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - HETZNER_API_TOKEN=${HETZNER_API_TOKEN}
+
+volumes:
+  caddy_data:
+  caddy_config:

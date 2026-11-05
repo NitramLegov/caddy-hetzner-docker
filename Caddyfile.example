@@ -1,0 +1,12 @@
+# Caddy configuration example for Hetzner DNS validation
+{
+    email admin@example.com
+}
+
+example.com {
+    tls {
+        dns hetzner {env.HETZNER_API_TOKEN}
+    }
+
+    respond "Hello from Caddy!"
+}
