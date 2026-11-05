@@ -32,14 +32,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Convert repository name to lowercase
+        id: repo
+        run: echo "image=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
       - name: Build and push Caddy
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           pull: true
-          tags: |
-            ghcr.io/${{ github.repository }}:latest
+          tags: ${{ steps.repo.outputs.image }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
